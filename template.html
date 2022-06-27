@@ -16,6 +16,7 @@
         <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.0.0"></script>
         <script src="https://unpkg.com/@jspsych/plugin-external-html@1.0.0"></script>
         <script src="https://unpkg.com/@jspsych/plugin-preload@1.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-call-function"></script>
         <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.0.0"></script>
         <script src="https://unpkg.com/@jspsych/plugin-survey-html-form@1.0.0"></script>
 
@@ -29,12 +30,7 @@
   const jsPsych = initJsPsych({
     on_finish: function(data) {
          window.location = "https://app.prolific.co/submissions/complete?cc=XXXXXXX"
-   },
-   on_data_update: function(data) {
-      //data.totalTime = jsPsych.getTotalTime();
-      //data.Progress = Math.round(100*((jsPsych.getProgress().current_trial_global + 1)/jsPsych.getProgress().total_trials));
-      //if(typeof participant_id != "undefined"){saveData(participant_id + '.csv', experimentname, jsPsych.data.get().csv());};
-  }
+   }
  });
 
   // Set global variables
@@ -97,20 +93,34 @@
 
   // Blocks
 
-  // Run the timeline
-  jsPsych.run([welcome, demographics, hello_trial, save_screen]);
 
   // Save
-  function saveData(filename, experiment, filedata){
-        var filename = '../users/'+user+'/' + experiment + '/Data/' + filename;
-        var dir_name = '../users/'+user+'/' + experiment + '/Data/';
-         $.ajax({
-            type:'post',
-            cache: false,
-            url: 'https://cogflex.com.au/jspsych/jsPsych.php',
-            data: {filename: filename, filedata: filedata, dir_name: dir_name}
-         });
-      }
+  function saveData(data){
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({filedata: data}));
+  }
+
+
+  var save_trial = {
+    type: jsPsychCallFunction,
+    async: true,
+    func: function(done){
+    saveData(jsPsych.data.get().csv());
+    done();
+   }
+}
+
+
+
+
+  // Run the timeline
+  jsPsych.run([welcome, hello_trial, demographics, save_trial]);
+
+
+
+
 
   </script>
 </html>
