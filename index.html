@@ -55,6 +55,7 @@
 
 // Capture any url paramaters
   const PROLIFIC_PID = jsPsych.data.getURLVariable('PROLIFIC_PID');
+  const SONA_PID = jsPsych.data.getURLVariable('id');
 
 
   // Save to OSF
@@ -115,8 +116,8 @@
 // Set Condition
 
 
-condition_1_timeline = [ hello_trial_C1, save_data];
-condition_2_timeline = [ hello_trial_C2, save_data];
+condition_1_timeline = [ welcome, hello_trial_C1, save_data];
+condition_2_timeline = [ welcome, hello_trial_C2, save_data];
 
 
 async function createExperiment(){
