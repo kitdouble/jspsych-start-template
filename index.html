@@ -90,13 +90,14 @@ if(typeof SONA_PID === 'undefined'){
   // Save to OSF
 const subject_id = jsPsych.randomization.randomID(10);
 const filename = `${subject_id}.csv`;
+const DataPipe_ID = "chMUqOOe9hhf" // The DataPipe ID for where the data should be stored
 
 
 
 const save_data = {
   type: jsPsychPipe,
   action: "save",
-  experiment_id: "chMUqOOe9hhf",
+  experiment_id: DataPipe_ID,
   filename: filename,
   data_string: ()=>jsPsych.data.get().csv()
 };
@@ -158,7 +159,7 @@ condition_2_timeline = [hello_trial_C2, debug, save_data];
 
 
 async function createExperiment(){
-  const condition = await jsPsychPipe.getCondition("chMUqOOe9hhf");
+  const condition = await jsPsychPipe.getCondition(DataPipe_ID);
   jsPsych.data.addProperties({condition: condition});
   if(condition == 0) { timeline = condition_1_timeline; }
   if(condition == 1) { timeline = condition_2_timeline; }
