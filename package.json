@@ -1,0 +1,19 @@
+{
+  "name": "jspsych-starter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 5174"
+  },
+  "dependencies": {
+    "jspsych": "^7.3.4",
+    "@jspsych/plugin-html-keyboard-response": "^1.2.0",
+    "@jspsych/plugin-preload": "^1.2.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}
